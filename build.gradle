@@ -1,22 +1,16 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.70'
+    id 'java'
 }
 
 group 'wycode.cn'
 version '1.0'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "com.aliyun.fc.runtime:fc-java-core:1.0.0"
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
 }
