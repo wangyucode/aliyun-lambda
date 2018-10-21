@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="aliyun-lambda_main:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/aliyun_lambda_main_jar</output-path>
-    <root id="archive" name="aliyun-lambda_main.jar">
-      <element id="module-output" name="aliyun-lambda_main" />
-      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.aliyun.fc.runtime/fc-java-core/1.0.0/8cf9805daaff78b8d33e7e3239c6fb87bcaa428c/fc-java-core-1.0.0.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
