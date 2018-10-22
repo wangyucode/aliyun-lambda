@@ -20,6 +20,35 @@ public class Lambda implements PojoRequestHandler<Request, Response> {
 
         Response response = new Response();
 
+        logger.info(request.body);
+
+//        try {
+//            URL url = new URL("http://www.baidu.com");
+//            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+//            httpUrlConnection.setConnectTimeout(30000);
+//            httpUrlConnection.setReadTimeout(30000);
+//            httpUrlConnection.setRequestMethod("GET");
+//            httpUrlConnection.setUseCaches(false);
+//            StringBuilder sb = new StringBuilder();
+//            logger.info(Charset.defaultCharset().name());
+//            InputStream httpInputStream = httpUrlConnection.getInputStream();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(httpInputStream, StandardCharsets.UTF_8));
+//            String line = reader.readLine();
+//            while (line != null) {
+//                sb.append(line);
+//                logger.info(line);
+//                line = reader.readLine();
+//            }
+//            response.content = sb.toString();
+//            httpInputStream.close();
+//            httpUrlConnection.disconnect();
+//        } catch (Exception e) {
+//            response.error = e.getMessage();
+//            logger.error(response.error);
+//            return response;
+//        }
+//        return response;
+
         logger.info("method->" + request.method);
         logger.info("uri->" + request.uri);
         logger.info("protocolVersion->" + request.protocolVersion);
