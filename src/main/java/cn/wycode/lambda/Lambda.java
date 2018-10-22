@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DeflaterInputStream;
+import java.util.zip.GZIPInputStream;
 
 public class Lambda implements PojoRequestHandler<Request, Response> {
 
@@ -21,33 +23,6 @@ public class Lambda implements PojoRequestHandler<Request, Response> {
         Response response = new Response();
 
         logger.info(request.body);
-
-//        try {
-//            URL url = new URL("http://www.baidu.com");
-//            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-//            httpUrlConnection.setConnectTimeout(30000);
-//            httpUrlConnection.setReadTimeout(30000);
-//            httpUrlConnection.setRequestMethod("GET");
-//            httpUrlConnection.setUseCaches(false);
-//            StringBuilder sb = new StringBuilder();
-//            logger.info(Charset.defaultCharset().name());
-//            InputStream httpInputStream = httpUrlConnection.getInputStream();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(httpInputStream, StandardCharsets.UTF_8));
-//            String line = reader.readLine();
-//            while (line != null) {
-//                sb.append(line);
-//                logger.info(line);
-//                line = reader.readLine();
-//            }
-//            response.content = sb.toString();
-//            httpInputStream.close();
-//            httpUrlConnection.disconnect();
-//        } catch (Exception e) {
-//            response.error = e.getMessage();
-//            logger.error(response.error);
-//            return response;
-//        }
-//        return response;
 
         logger.info("method->" + request.method);
         logger.info("uri->" + request.uri);
@@ -86,12 +61,22 @@ public class Lambda implements PojoRequestHandler<Request, Response> {
                 response.headers.put(resHeader.getKey(), sb.toString());
                 sb.setLength(0);
             }
-            logger.info(Charset.defaultCharset().name());
             InputStream httpInputStream = httpUrlConnection.getInputStream();
+
+            String encoding = httpUrlConnection.getContentEncoding();
+            if ("gzip".equalsIgnoreCase(encoding)) {
+                httpInputStream = new GZIPInputStream(httpInputStream);
+                response.headers.remove("Content-Encoding");
+            } else if ("deflate".equalsIgnoreCase(encoding)) {
+                httpInputStream = new DeflaterInputStream(httpInputStream);
+                response.headers.remove("Content-Encoding");
+            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(httpInputStream, StandardCharsets.UTF_8));
             String line = reader.readLine();
             while (line!=null) {
                 sb.append(line);
+                sb.append('\r');
+                sb.append('\n');
                 logger.info(line);
                 line = reader.readLine();
             }
