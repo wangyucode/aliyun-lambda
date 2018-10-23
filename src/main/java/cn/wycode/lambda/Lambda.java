@@ -30,13 +30,16 @@ public class Lambda implements PojoRequestHandler<Request, Response> {
         logger.info("protocolVersion->" + request.protocolVersion);
         logger.info("body->" + request.body);
 
+        if("CONNECT".equals(request.method)){
+            String host = request.uri.split(":")[0];
+            int port = Integer.parseInt(request.uri.split(":")[1]);
+            logger.info("CONNECT->"+host+":"+port);
+            response.code = 405;
+            return response;
+        }
+
         URL url;
         try {
-            if (request.uri.startsWith("http://") || request.uri.startsWith("https://") || request.uri.startsWith("HTTP://") || request.uri.startsWith("HTTPS://")) {
-
-            } else {
-                request.uri = "http://" + request.uri;
-            }
             URI uri = new URI(request.uri);
             url = uri.toURL();
         } catch (Exception e) {
